@@ -1,0 +1,31 @@
+# Source: hello-ring/templates/ring.yaml
+apiVersion: rings.microsoft.com/v1alpha1
+kind: Ring
+metadata:
+  name: {{.Values.serviceName}}-{{.Values.majorVersion}}-{{ .Values.ringName }}
+  contact: {{ .Values.contact }}
+  branchName: {{ .Values.branchName }} # Set by pipeline
+  buildId: {{ .Values.buildId }} # Set by pipeline
+  buildDate: {{ .Values.buildDate }} # Set by pipeline
+  commitId: {{ .Values.commitId }} # Set by pipeline
+spec:
+  # Deploy to environment
+  deploy: {{ .Values.deploy }}
+  entryPoints:
+    # Source of traffic (eg: 80 or 443)
+    - http
+    - https
+    - internal
+  routing:
+    service: {{ .Values.serviceName }}
+    version: {{ .Values.majorVersion }}
+    branch: {{ .Values.branch }}
+    group: {{ .Values.group }}
+    ports:
+      {{- range .Values.application.ports }}
+      - {{ . }}
+      {{- end }}
+    initialUsers:
+      {{- range .Values.initialUsers }}
+      - {{ . }}
+      {{- end }}

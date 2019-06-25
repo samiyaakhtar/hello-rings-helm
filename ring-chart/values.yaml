@@ -1,0 +1,37 @@
+# Default values for hello-ring.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+serviceName: "languages"
+majorVersion: "v1"
+ringName: "48883-add-search"
+group: "CMS-CORE"
+contact: cms-core-dl@contoso.com
+# check the branch to compare that the ring and branch
+# don't clobber over existing rings and branches (ie production)
+# user supplies this branch name and devops should matche it with the branch being pushed - we fail hard if they do not match.
+# this introduces _intentionallity_ to rings.
+branch: feature/48883-add-search
+initialUsers:
+  - bill@contoso.com
+  - ted@contoso.com
+deploy: true
+
+application:
+  replicaCount: 1000
+  ports:
+    - 8080
+
+# The variables below should not be updated
+# They will be moved into a different file when
+# fabrikate supports it
+
+branchName: bar
+buildId: 12345
+buildDate: 20190624
+commitId: 43defcs
+
+image:
+  repository: myRepo
+  tag: myTag
+  pullPolicy: IfNotPresent
